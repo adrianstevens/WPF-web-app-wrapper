@@ -1,0 +1,63 @@
+﻿<Window x:Class="AwesomeSlack.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:awe="http://schemas.awesomium.com/winfx"
+        xmlns:data="http://schemas.awesomium.com/winfx/data"
+        xmlns:core="http://schemas.awesomium.com/core"
+        Title="AwesomeSlack" MinHeight="480" MinWidth="640"
+        x:Name="mainWindow">
+    <Window.Resources>
+        <awe:WebSessionProvider x:Key="webSession" DataPath=".\Cache">
+            <core:WebPreferences SmoothScrolling="True" />
+        </awe:WebSessionProvider>
+        <awe:UrlConverter x:Key="UrlConverter" />
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </Window.Resources>
+    <awe:WebDialogsLayer>
+        <Grid>
+            <Grid.RowDefinitions>
+                 <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <awe:WebControl 
+                Grid.Row="0"
+                x:Name="webControl"
+                Source="https://slack.com"
+                NativeView="{Binding NativeView, ElementName=webWindow}"
+                WebSession="{Binding Source={StaticResource webSession}}"
+                />
+            <StatusBar 
+                Grid.Row="1" 
+                Height="25" 
+                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+                BorderThickness="0,1,0,0">
+                <StatusBarItem HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Text="Zoom:"/>
+                        <Slider 
+                            DataContext="{Binding ElementName=webControl}" 
+                            Margin="3,0" 
+                            Minimum="40" 
+                            Maximum="240" 
+                            Width="120"
+                            VerticalAlignment="Center" 
+                            Value="{Binding Zoom}" 
+                            AutoToolTipPlacement="TopLeft" 
+                            IsSnapToTickEnabled="True" 
+                            IsMoveToPointEnabled="True" 
+                            SmallChange="1" 
+                            LargeChange="10" 
+                            TickFrequency="10" 
+                            Focusable="False" 
+                            ToolTip="{Binding Zoom}">
+                            
+                        </Slider>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </awe:WebDialogsLayer>
+</Window>
